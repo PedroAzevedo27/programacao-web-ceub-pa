@@ -1,5 +1,5 @@
-let var1 = 5;
-let var2 = 30;
+let var1 = "30";
+let var2 = 5;
 
 let resultado1 = var1 - var2;
 let resultado2= var1 + var2;
