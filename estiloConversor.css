@@ -1,0 +1,23 @@
+input {
+    padding: 10px;
+}
+select{
+    padding: 10px;
+}
+button{
+    padding: 10px;
+}
+
+.container {
+    border: 1px solid #aaa;
+    padding: 50px;
+    text-align: center;
+    margin-top: 50px;
+}
+#Título{
+    margin-bottom: 50px;
+}
+
+#Resultado{
+    margin-top: 50px;
+}
