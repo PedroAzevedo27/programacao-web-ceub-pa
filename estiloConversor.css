@@ -1,10 +1,12 @@
 input {
     padding: 10px;
 }
-select{
+
+select {
     padding: 10px;
 }
-button{
+
+button {
     padding: 10px;
 }
 
@@ -14,10 +16,24 @@ button{
     text-align: center;
     margin-top: 50px;
 }
-#Título{
+
+.mensagem-usuario {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background-color: #aaa;
+    text-align: center;
+    display: none;
+}
+
+
+
+
+#Título {
     margin-bottom: 50px;
 }
 
-#Resultado{
+#Resultado {
     margin-top: 50px;
 }

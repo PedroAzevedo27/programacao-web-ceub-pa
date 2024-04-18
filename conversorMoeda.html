@@ -20,16 +20,22 @@
             <option value="euro">Euro</option>
 
         </select>
-        <button onclick="inverter()">Inverter</button>
+        <button id="botao-inverter">Inverter</button>
         <select name="moeda2" id="moeda2">
             <option value="real">Real</option>
             <option value="dolar" selected>Dólar</option>
             <option value="euro">Euro</option>
         </select>
-        <button onclick="limpar()">Limpar</button>
-        <button onclick="converter()">Converter</button>
+        <button id="botao-limpar">Limpar</button>
+        <button id="botao-converter">Converter</button>
         <p id="resultado"></p>
         <!-- <button>Limpar</button> -->
+    </div>
+
+    <div class = "mensagem-usuario">
+        <p>Nosso site processa dados pessoas. Aceita continuar?</p>
+        <button id=" botao-aceita-mensagem">Aceitar</button>
+
     </div>
     <script src="conversordeMoedas.js"></script>
 </body>
