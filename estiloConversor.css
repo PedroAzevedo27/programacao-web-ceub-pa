@@ -24,6 +24,12 @@ button {
     width: 100%;
     background-color: #aaa;
     text-align: center;
+    padding-top: 15px;
+    padding-bottom: 15px;
+   
+}
+
+.oculto {
     display: none;
 }
 
