@@ -24,25 +24,30 @@ botaoInverter.addEventListener("click", inverter);
 
 let botaoAceitaMensagem = document.getElementById("botao-aceita-mensagem");
 botaoAceitaMensagem.addEventListener("click", aceitaMensagem);
-if (localStorage.getItem("aceitouCookie") == "1") {
+
+if(localStorage.getItem("aceitouCookie") == "1") {
     aceitaMensagem();
 }
+
 function salvaResultadoNoHistorico(conversao) {
-    let conversaoEmJson = JSON.stringify(conversao);
-    localStorage.setItem("historico", conversaoEmJson);
+    let historico = recuperaHistoricoDeConversoes();
+
+    historico.push(conversao);
+
+    historico = JSON.stringify(historico);
+    localStorage.setItem("historico", historico);
 }
 
-let valorUsuario = document.getElementById("valor-usuario");
-valorUsuario.addEventListener("keypress", function (event) {
+function recuperaHistoricoDeConversoes() {
+    let historico = localStorage.getItem("historico");
 
-
-    console.log(event);
-
-    if (event.key == "Enter") {
-        converter();
+    if(!historico) {
+        return [];
     }
+    let historicoConvertido = JSON.parse(historico);
+    return historicoConvertido;
+}
 
-});
 function aceitaMensagem() {
     let divMensagemUsuario = document.getElementById("container-mensagem-usuario");
     divMensagemUsuario.classList.add("oculto");
@@ -51,18 +56,70 @@ function aceitaMensagem() {
 }
 
 
+let valorUsuario = document.getElementById("valor-usuario");
+valorUsuario.addEventListener("keypress", function(event) {
+
+    console.log(event);
+
+    if(event.ctrlKey == true && event.code == "KeyI") {
+        inverter();
+    }
+
+    if(event.ctrlKey == true && event.code == "KeyL") {
+        limpar();
+    }
+
+    if(event.key == "Enter") {
+        converter();
+    }
+
+});
+
+
+function limpar() {
+    let valorUsuario = document.getElementById("valor-usuario");
+    let resultado = document.getElementById("resultado");
+
+    valorUsuario.value = "";
+    resultado.textContent = "";
+}
+
+function buscaAPI() {
+    let url = "https://economia.awesomeapi.com.br/json/last/USD-BRL";
+    fetch(url).then(function(data){
+        if(data.status == 200) {
+            console.log("Retorno código 200 API");
+        }
+        return data.json();
+    }).then(function(response){
+        console.log(response["USDBRL"]["ask"]);
+        return response["USDBRL"]["ask"];
+    
+    }).catch();
+}
+
+
 function converter() {
+    buscaAPI();
+
+
     let valorUsuario = document.getElementById("valor-usuario").value;
 
-    let moedaOrigem = document.getElementById("moeda1").value;
+    let moedaOrigem  = document.getElementById("moeda1").value;
     let moedaDestino = document.getElementById("moeda2").value;
 
-    if (valorUsuario == "") {
-        alert("Valor não pode ser vazio!")
+
+    if(valorUsuario == "") {
+        alert("Valor não pode ser vazio!");
         return;
     }
 
-    if (moedaOrigem == moedaDestino) {
+    if(valorUsuario < 0) {
+        alert("Valor não pode ser negativo");
+        return;
+    }
+
+    if(moedaOrigem == moedaDestino) {
         alert("As moedas são iguais, não é possível converter");
         return;
     }
@@ -74,50 +131,31 @@ function converter() {
         simbolo = "R$";
     }
     if (moedaDestino == "dolar") {
-        simbolo = "US$";
+        simbolo = "US$"
     }
     if (moedaDestino == "euro") {
         simbolo = "€";
     }
 
-    console.log(conversao);
 
     let paragrafoResultado = document.getElementById("resultado");
     paragrafoResultado.textContent = simbolo + " " + conversao.toFixed(2);
 
     let resultadoDaConversao = {
         valor: valorUsuario,
-        moeda1: moeda1,
+        moeda1: moedaOrigem,
         moeda2: moedaDestino,
         resultado: conversao
     }
 
     salvaResultadoNoHistorico(resultadoDaConversao);
-
-
-}
-
-function limpar() {
-    let valorUsuario = document.getElementById("valor-usuario");
-    let resultado = document.getElementById("resultado");
-
-    valorUsuario.value = "";
-
-    resultado.textContent = "";
-
-
 }
 
 function inverter() {
     let moeda1 = document.getElementById("moeda1").value;
     let moeda2 = document.getElementById("moeda2").value;
 
+
     document.getElementById("moeda1").value = moeda2;
     document.getElementById("moeda2").value = moeda1;
-
-
-    // console.log(moeda1);
-    // console.log(moeda2);
-
-
 }
