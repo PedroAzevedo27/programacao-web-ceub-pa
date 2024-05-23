@@ -84,16 +84,22 @@ function limpar() {
     resultado.textContent = "";
 }
 
-function buscaAPI() {
-    let url = "https://economia.awesomeapi.com.br/json/last/USD-BRL";
-    fetch(url).then(function(data){
+function buscaAPI(moedaOrigem, moedaDestino) {
+    console.log(moedaOrigem);
+    console.log(moedaDestino);
+    
+    let parametro = moedaOrigem + "-" + moedaDestino;
+    let url = "https://economia.awesomeapi.com.br/json/last/USD-BRL" + parametro;
+    
+    return fetch(url).then(function(data){
         if(data.status == 200) {
             console.log("Retorno código 200 API");
         }
         return data.json();
     }).then(function(response){
         console.log(response["USDBRL"]["ask"]);
-        return response["USDBRL"]["ask"];
+        console.log(typeOF(response["USDBRL"]["ask"]));
+        return response   
     
     }).catch();
 }
@@ -107,6 +113,11 @@ function converter() {
 
     let moedaOrigem  = document.getElementById("moeda1").value;
     let moedaDestino = document.getElementById("moeda2").value;
+
+    buscaAPI(moedaOrigem, moedaDestino).then(function(response){
+        console.log(response);
+    });
+    return;
 
 
     if(valorUsuario == "") {
